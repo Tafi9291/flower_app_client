@@ -1,0 +1,90 @@
+name: t_store
+description: "A new Flutter project."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.4 <4.0.0"
+
+#----------Packages----------#
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Utility Packages
+  http: ^1.1.0
+  intl: ^0.18.1
+  logger: ^2.0.1
+  url_launcher: ^6.1.12
+  flutter_native_splash: ^2.3.9
+  smooth_page_indicator: ^1.1.0
+
+  # Icons
+  iconsax: ^0.0.8
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+  # State Management
+  get: ^4.6.5
+  get_storage: ^2.1.1
+
+  # Product Specific
+  readmore: ^2.2.0
+  carousel_slider: ^4.2.1
+  flutter_rating_bar: ^4.0.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  #--------------LOCAL ASSETS----------------#
+  assets:
+    - assets/logos/
+    - assets/icons/brands/
+    - assets/images/user/
+    - assets/images/
+    - assets/images/banners/
+    - assets/images/on_boarding_images/
+    - assets/images/animations/
+    - assets/icons/categories/
+    - assets/images/products/
+    - assets/images/reviews/
+    - assets/icons/payment_methods/
+
+  #--------------LOCAL FONTS----------------#
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-BoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-LightItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-MediumItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Roboto-Black.ttf
+          weight: 600
+        - asset: assets/fonts/Roboto-BlackItalic.ttf
+          style: italic
