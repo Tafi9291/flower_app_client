@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:t_store/api/auth_api_handler.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/common/widgets/custom_shapes/containers/primary_header_container.dart';
 import 'package:t_store/common/widgets/list_tiles/settings_menu_tile.dart';
@@ -15,8 +16,41 @@ import 'package:t_store/features/shop/screens/order/order.dart';
 import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+
+  AuthUserApiHandler customerApiHandler = AuthUserApiHandler();
+
+  Map<String, dynamic> customerDetail = {};
+
+  @override
+  void initState() {
+    super.initState();
+    loadcustomerDetail();
+  }
+
+  void loadcustomerDetail() async {
+    try {
+      final customerDetailResponse = await customerApiHandler.getUserDetail();
+      setState(() {
+        customerDetail = customerDetailResponse;
+      });
+    } catch (e) {
+      print('Failed to load customer detail: $e');
+    }
+  }
+
+  void logout() async {
+    await customerApiHandler.logout();
+    // Sau khi đăng xuất, bạn có thể điều hướng người dùng đến màn hình đăng nhập hoặc màn hình khác tùy thuộc vào luồng ứng dụng của bạn
+    Get.offAll(() => const LoginScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +151,7 @@ class SettingScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity, 
                     child: OutlinedButton(
-                    onPressed: () => Get.to(() => const LoginScreen()), 
+                    onPressed: logout, 
                     style: OutlinedButton.styleFrom(side: const BorderSide(color: TColors.primary)), child: const Text('Đăng xuất')),
                   ),
                 ],

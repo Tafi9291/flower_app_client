@@ -80,8 +80,8 @@ class TTexts {
   static const String onBoardingSubTitle3 = "Từ Cửa hàng đến Cửa nhà của bạn - Giao hàng nhanh chóng, an toàn và không tiếp xúc!";
 
   // -- Biến về Xác thực
-  static const String firstName = "Tên";
-  static const String lastName = "Họ";
+  static const String firstName = "Họ";
+  static const String lastName = "Tên";
   static const String email = "E-Mail";
   static const String password = "Mật khẩu";
   static const String confirmPassword = "Nhập lại mật khẩu";
@@ -104,6 +104,7 @@ class TTexts {
   // -- Tiêu đề Xác thực
   static const String loginTitle = "Chào mừng trở lại,";
   static const String loginSubTitle = "Khám phá những lựa chọn không giới hạn và sự tiện lợi không tưởng.";
+  static const String loginAdminSubTitle = "Quản lý tuyệt vời, bán hàng cực chất";
   static const String signupTitle = "Hãy tạo tài khoản của bạn";
   static const String forgetPasswordTitle = "Quên mật khẩu";
   static const String forgetPasswordSubTitle = "Đừng lo, đôi khi mọi người cũng có thể quên, nhập email của bạn và chúng tôi sẽ gửi cho bạn một liên kết đặt lại mật khẩu.";
