@@ -18,7 +18,7 @@ class TProductCardHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Container(
-      width: 310,
+      width: 320,
       padding: const EdgeInsets.all(1),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(TSizes.productImageRadius),
@@ -28,7 +28,7 @@ class TProductCardHorizontal extends StatelessWidget {
         children: [
           /// Thumbnail
           TRoundedContainer(
-            height: 120,
+            height: 150,
             padding: const EdgeInsets.all(TSizes.sm),
             backgroundColor: dark ? TColors.dark : TColors.light,
             child: Stack(
@@ -36,8 +36,8 @@ class TProductCardHorizontal extends StatelessWidget {
                 /// Thumbnail Image
                 const SizedBox(
                   height: 120,
-                  width: 120,
-                  child: TRoundedImage(imageUrl: TImages.productImage1, applyImageRadius: true),
+                  width: 130,
+                  child: TRoundedImage(imageUrl: TImages.hoa1, applyImageRadius: true),
                 ),
 
                 /// Sale tag
@@ -65,7 +65,7 @@ class TProductCardHorizontal extends StatelessWidget {
           SizedBox(
             width: 172,
             child: Padding(
-              padding: const EdgeInsets.only(top: TSizes.sm, left: TSizes.sm),
+              padding: const EdgeInsets.only(top: TSizes.lg, left: TSizes.md),
               child: Column(
                 children: [
                   const Column(
@@ -88,7 +88,7 @@ class TProductCardHorizontal extends StatelessWidget {
                       /// Add to Cart
                       Container(
                         decoration: const BoxDecoration(
-                          color: TColors.dark,
+                          color: TColors.darkPrimary,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(TSizes.cardRadiusMd),
                             bottomRight: Radius.circular(TSizes.productImageRadius),

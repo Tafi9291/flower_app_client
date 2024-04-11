@@ -41,9 +41,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     }
   }
 
-  
-
-
   @override
   Widget build(BuildContext context) {
     
@@ -53,22 +50,29 @@ class _CategoryScreenState extends State<CategoryScreen> {
         leadingOnPressed: (){Scaffold.of(context).openDrawer();},
         title: const Text('Phân loại sản phẩm'),
       ),
-      body: Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int index){
-              return Padding(
-                padding: const EdgeInsets.all(TSizes.md),
-                child: TCategoryItem(
-                  title: data[index].categoryName, 
-                  imageUrl: data[index].imageUrl != null && data[index].imageUrl!.isNotEmpty ? data[index].imageUrl! : TImages.hoa1,
-                ),
-              );
-            },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 65),
+          child: Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Padding(
+                    padding: const EdgeInsets.all(TSizes.md),
+                    child: TCategoryItem(
+                      id: data[index].categoryId,
+                      title: data[index].categoryName, 
+                      imageUrl: data[index].imageUrl != null && data[index].imageUrl!.isNotEmpty ? data[index].imageUrl! : TImages.hoa1,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

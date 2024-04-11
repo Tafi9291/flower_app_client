@@ -13,6 +13,7 @@ import 'package:t_store/navigation_menu.dart';
 import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 import 'package:t_store/utils/constants/text_strings.dart';
+import 'package:t_store/utils/popup/loaders.dart';
 
 class TLoginForm extends StatefulWidget {
   const TLoginForm({super.key});
@@ -51,20 +52,21 @@ class _TLoginFormState extends State<TLoginForm> {
       } else {
         // Show error message
         // ignore: use_build_context_synchronously
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Lỗi', style: TextStyle(fontSize: 17)),
-            content: const Text('Email hoặc mật khẩu không chính xác!'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Đóng', style: TextStyle(fontSize: 16),),
-              ),
-            ],
-          ),
-        );
+        TLoaders.warningSnackBar(title: 'Cảnh báo', message: 'Email hoặc mật khẩu không chính xác!'.tr);
+        // showDialog(
+        //   // ignore: use_build_context_synchronously
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: const Text('Lỗi', style: TextStyle(fontSize: 17)),
+        //     content: const Text('Email hoặc mật khẩu không chính xác!'),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () => Navigator.pop(context),
+        //         child: const Text('Đóng', style: TextStyle(fontSize: 16),),
+        //       ),
+        //     ],
+        //   ),
+        // );
       }
     }
 

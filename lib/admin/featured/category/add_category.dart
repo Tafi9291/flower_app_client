@@ -1,16 +1,22 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
+import 'package:get/get.dart';
+import 'package:t_store/admin/featured/category/category.dart';
 import 'package:t_store/api/category_api_handler.dart';
 
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/data/models/Category.dart';
+import 'package:t_store/data/models/CategoryWithImageInput.dart';
 import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show Uint8List, rootBundle;
 import 'package:path_provider/path_provider.dart';
+import 'package:t_store/utils/popup/loaders.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({super.key});
@@ -26,30 +32,33 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   TextEditingController categoryNameController = TextEditingController();
 
   final CategoryApiHandler cate = CategoryApiHandler();
-  final _formKey = GlobalKey<FormBuilderState>();
-  void addUser() async {
-    try {
-      if (_formKey.currentState != null && _formKey.currentState!.saveAndValidate()) {
-        final data = _formKey.currentState!.value;
 
-        // Lưu hình ảnh vào thư mục và lấy đường dẫn
-        final imageUrl = await saveImageToDirectory();
-
-        if (imageUrl != null) {
-          final categories = Category(
-            categoryId: 0,
-            categoryName: data['categoryName'],
-            imageUrl: imageUrl,
-          );
-          await cate.addCategory(category: categories);
-        }
-      }
-    } catch (e) {
-      print(e);
+  void addCategory() async {
+    if (_selectedImage == null || categoryNameController.text.isEmpty) {
+      TLoaders.warningSnackBar(title: 'Cảnh báo', message: 'Thông tin còn thiếu. Hãy kiểm tra lại.'.tr);
     }
 
-    if (!mounted) return;
-    Navigator.pop(context);
+    // Create CategoryWithImageInput object
+    CategoryWithImageInput categoryInput = CategoryWithImageInput(
+      categoryName: categoryNameController.text,
+      imageFile: _selectedImage!,
+    );
+
+    // Call the addCategory method from your CategoryApiHandler
+    try {
+      Category? addedCategory = await cate.addCategory(categoryInput);
+      if (addedCategory != null) {
+        // Category added successfully
+        TLoaders.successSnackBar(title: 'Tạo phân loại mới', message: 'Tạo phân loại mới thành công'.tr);
+        Navigator.pop(context);
+      } else {
+        // Handle case where category could not be added
+        TLoaders.errorSnackBar(title: 'Tạo phân loại mới', message: 'Tạo phân loại mới thất bại'.tr);
+      }
+    } catch (e) {
+      // Handle error scenario
+      print('Error adding category: $e');
+    }
   }
 
   @override
@@ -60,7 +69,6 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Form(
-            key: _formKey,
             child: Column(
               children: [
                 TextFormField(
@@ -91,42 +99,13 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                 _selectedImage != null ? Image.file(_selectedImage!, height: 200, width: 200, fit: BoxFit.contain) : const Text('Hãy chọn hình ảnh!'),
 
                 const SizedBox(height: TSizes.defaultSpace),
-                SizedBox(width: double.infinity, child: ElevatedButton(onPressed: addUser, style: ElevatedButton.styleFrom(backgroundColor: TColors.darkPrimary), child: const Text('Lưu'),),)
+                SizedBox(width: double.infinity, child: ElevatedButton(onPressed: addCategory, style: ElevatedButton.styleFrom(backgroundColor: TColors.darkPrimary), child: const Text('Lưu'),),)
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<String?> saveImageToDirectory() async {
-    try {
-      final Directory? tempDir = await getTemporaryDirectory();
-      if (tempDir == null) {
-        print('Temporary directory not found.');
-        return null;
-      }
-      final String tempPath = tempDir.path;
-
-      if (_selectedImage != null) {
-        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final tempFile = File('$tempPath/$fileName');
-        await tempFile.writeAsBytes(await _selectedImage!.readAsBytes());
-
-        final Directory assetDir = Directory('assets/images/category');
-        if (!assetDir.existsSync()) {
-          assetDir.createSync(recursive: true);
-        }
-        await tempFile.copy('${assetDir.path}/$fileName');
-
-        return 'assets/images/category/$fileName';
-      }
-      return null;
-    } catch (e) {
-      print('Error saving image to assets: $e');
-      return null;
-    }
   }
 
   pickImageFromGallery() async {

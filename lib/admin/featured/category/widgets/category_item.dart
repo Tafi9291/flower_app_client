@@ -1,7 +1,9 @@
+import 'package:t_store/api/category_api_handler.dart';
 import 'package:t_store/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:t_store/common/widgets/images/t_rounded_image.dart';
 import 'package:t_store/common/widgets/texts/noti_title_text.dart';
 import 'package:t_store/admin/featured/category/edit_category.dart';
+import 'package:t_store/data/models/Category.dart';
 import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/image_strings.dart';
 import 'package:t_store/utils/constants/sizes.dart';
@@ -10,14 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TCategoryItem extends StatelessWidget {
-  const TCategoryItem({super.key, required this.title, required this.imageUrl});
+  const TCategoryItem({super.key, required this.title, required this.imageUrl, required this.id});
 
+  final int id;
   final String title;
   final String imageUrl;
+
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+
     return Container(
       width: 310,
       padding: const EdgeInsets.all(1),
@@ -39,7 +44,7 @@ class TCategoryItem extends StatelessWidget {
                 SizedBox(
                   height: 120,
                   width: 70,
-                  child: TRoundedImage(imageUrl: imageUrl, applyImageRadius: true),
+                  child: TRoundedImage(imageUrl: imageUrl, applyImageRadius: true, isNetWorkImage: true,),
                 ),
               ],
             ),
@@ -63,7 +68,7 @@ class TCategoryItem extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(onPressed: () => Get.to(() => const EditCategoryScreen()), icon: const Icon(Icons.edit_outlined)),
+          IconButton(onPressed: () => Get.to(() => EditCategoryScreen(categoryId: id)), icon: const Icon(Icons.edit_outlined)),
           const SizedBox(width: TSizes.sm),
           IconButton(
             onPressed: (){

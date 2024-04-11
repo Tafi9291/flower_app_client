@@ -6,7 +6,7 @@ class Category {
   String? imageUrl;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<Product>? products;
+  // List<Product>? products;
 
   Category({
     required this.categoryId,
@@ -14,7 +14,7 @@ class Category {
     this.imageUrl,
     this.createdAt,
     this.updatedAt,
-    this.products,
+    // this.products,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category (
@@ -23,9 +23,9 @@ class Category {
       imageUrl: json['imageUrl'] ?? '',
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
-      products: json['products'] != null
-          ? List<Product>.from(json['products'].map((productJson) => Product.fromJson(productJson)))
-          : null,
+      // products: json['products'] != null
+      //     ? List<Product>.from(json['products'].map((productJson) => Product.fromJson(productJson)))
+      //     : null,
   );
   Map<String, dynamic> toJson() => {
     "categoryId": categoryId,
