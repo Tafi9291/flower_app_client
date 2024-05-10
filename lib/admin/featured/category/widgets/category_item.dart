@@ -11,13 +11,56 @@ import 'package:t_store/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TCategoryItem extends StatelessWidget {
-  const TCategoryItem({super.key, required this.title, required this.imageUrl, required this.id});
+class TCategoryItem extends StatefulWidget {
+  const TCategoryItem({super.key, required this.id, required this.title, required this.imageUrl});
 
   final int id;
   final String title;
   final String imageUrl;
 
+
+  @override
+  State<TCategoryItem> createState() => _TCategoryItemState();
+}
+
+class _TCategoryItemState extends State<TCategoryItem> {
+  final CategoryApiHandler categoryApiHandler = CategoryApiHandler();
+
+  void _confirmDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cảnh báo!!!'),
+        content: const Text('Bạn có chắc muốn xóa không?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context), // Đóng dialog
+              child: const Text('Hủy', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+            ),
+            TextButton(
+              onPressed: () async {
+              try {
+                final result = await categoryApiHandler.deleteCategory(widget.id);
+                // Xóa thành công
+                print('Category deleted successfully');
+                // Thực hiện các hành động sau khi xóa, ví dụ: cập nhật UI, hiển thị thông báo, v.v.
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(result)),
+                );
+              } catch (e) {
+                // Xử lý ngoại lệ và hiển thị thông báo lên UI
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Loại sản phẩm đang được sử dụng. Không thể xóa')),
+                );
+              }
+              Navigator.pop(context); // Đóng dialog
+            },
+            child: const Text('Ok', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +87,7 @@ class TCategoryItem extends StatelessWidget {
                 SizedBox(
                   height: 120,
                   width: 70,
-                  child: TRoundedImage(imageUrl: imageUrl, applyImageRadius: true, isNetWorkImage: true,),
+                  child: TRoundedImage(imageUrl: widget.imageUrl, applyImageRadius: true, isNetWorkImage: true,),
                 ),
               ],
             ),
@@ -60,7 +103,7 @@ class TCategoryItem extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      TNotiTitleText(title: title,)
+                      TNotiTitleText(title: widget.title,)
                       
                     ],
                   ),
@@ -68,23 +111,10 @@ class TCategoryItem extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(onPressed: () => Get.to(() => EditCategoryScreen(categoryId: id)), icon: const Icon(Icons.edit_outlined)),
+          IconButton(onPressed: () => Get.to(() => EditCategoryScreen(categoryId: widget.id)), icon: const Icon(Icons.edit_outlined)),
           const SizedBox(width: TSizes.sm),
           IconButton(
-            onPressed: (){
-              showDialog(
-                context: context, 
-                builder: (context) => AlertDialog(
-                  title: const Text('Cảnh báo!!!'),
-                  content: const Text('Bạn có chắc muốn xóa không?'),
-                  actions: [
-                    TextButton(onPressed: (){}, child: const Text('Hủy', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),)),
-                    TextButton(onPressed: (){}, child: const Text('Ok', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),)),
-                  ],
-                )
-                
-              );
-            }, 
+            onPressed: () => _confirmDelete(context),
             icon: const Icon(Icons.delete_outline),
           ),
         ],

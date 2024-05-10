@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:t_store/api/order_api_handler.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:t_store/common/widgets/products/cart/coupon_widget.dart';
@@ -16,8 +17,77 @@ import 'package:t_store/utils/constants/image_strings.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
 
-class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key, 
+    required this.totalPrice, 
+    required this.nickName, 
+    required this.phoneNumber, 
+    this.addressId, 
+    required this.usersId, 
+    this.addressIdDefault,
+    this.addressName,
+  });
+
+  final String totalPrice;
+  final int? usersId;
+  final String nickName, phoneNumber;
+  final int? addressIdDefault;
+  final int? addressId;
+  final String? addressName;
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+
+  final OrderApiHandler _orderService = OrderApiHandler(); // Thay thế ProductService bằng tên service của bạn
+
+  late int? _addressId;
+
+  @override
+  void initState() {
+    super.initState();
+    _addressId = widget.addressId;
+  }
+
+  Future<void> _createOrder() async {
+    try {
+      final int? userId = widget.usersId;
+      int? addressId = _addressId;
+      if (addressId == null) {
+        addressId = widget.addressIdDefault;
+      }
+      if(userId != null) {
+        await _orderService.createOrder(userId, addressId); // Gọi hàm createOrder từ service của bạn
+        Get.to(() => SuccessScreen(
+          image: TImages.successfulPaymentIcon,
+          title: 'Thanh toán thành công!',
+          subtitle: 'Các mặt hàng của bạn sẽ sớm được vận chuyển!',
+          onPressed: () => Get.offAll(() => const NavigationMenu()),
+        ));
+      } else {
+        const message = 'Id người không tồn tại. Vui lòng thử lại sau.';
+      _showErrorSnackbar(message);
+      }
+    } catch (e) {
+      print('Error creating order: $e');
+      // Xử lý lỗi khi tạo đơn hàng
+      const message = 'Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại sau.';
+      _showErrorSnackbar(message);
+    }
+  }
+
+  void _showErrorSnackbar(String message) {
+    Get.snackbar(
+      'Lỗi',
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +114,31 @@ class CheckoutScreen extends StatelessWidget {
                 showBorder: true,
                 padding: const EdgeInsets.all(TSizes.md),
                 backgroundColor: dark ? TColors.black : TColors.white,
-                child: const Column(
+                child: Column(
                   children: [
                     /// Pricing
-                    TBillingAmountSection(),
-                    SizedBox(height: TSizes.spaceBtwItems),
+                    TBillingAmountSection(subTotal: widget.totalPrice, finalPrice: widget.totalPrice,),
+                    const SizedBox(height: TSizes.spaceBtwItems),
 
                     /// Divider
-                    Divider(),
-                    SizedBox(height: TSizes.spaceBtwItems),
+                    const Divider(),
+                    const SizedBox(height: TSizes.spaceBtwItems),
 
                     /// Payment Methods
-                    TBillingPaymentSection(),
-                    SizedBox(height: TSizes.spaceBtwItems),
+                    const TBillingPaymentSection(),
+                    const SizedBox(height: TSizes.spaceBtwItems),
                     
                     /// Address
-                    TBillingAddressSection(),
+                    TBillingAddressSection(
+                      nickName: widget.nickName, 
+                      phoneNumber: widget.phoneNumber, 
+                      address: widget.addressName.toString(),
+                      onAddressIdChanged: (newAddressId) {
+                        setState(() {
+                          _addressId = newAddressId;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -72,14 +151,9 @@ class CheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: ElevatedButton(
-          onPressed: () => Get.to(() => SuccessScreen(
-            image: TImages.successfulPaymentIcon,
-            title: 'Thanh toán thành công!',
-            subtitle: 'Các mặt hàng của bạn sẽ sớm được vận chuyển!',
-            onPressed: () => Get.offAll(() => const NavigationMenu()),
-          )),
+          onPressed: _createOrder,
           style: ElevatedButton.styleFrom(backgroundColor: TColors.darkPrimary), 
-          child: const Text('Thanh toán đ 276.000'), 
+          child: Text('Thanh toán ${widget.totalPrice}'), 
         ),
       ),
     );

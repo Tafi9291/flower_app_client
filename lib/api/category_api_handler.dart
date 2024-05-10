@@ -125,5 +125,30 @@ class CategoryApiHandler {
     }
   }
 
+  Future<String> deleteCategory(int id) async {
+    final url = Uri.parse('$baseUri/api/categories/$id');
+    try {
+      final response = await http.delete(url);
+      if (response.statusCode == 200) {
+        // Xóa thành công
+        print('Xóa phân loại thành công');
+        return "Xóa phân loại thành công";
+      } else if (response.statusCode == 404) {
+        // Không tìm thấy danh mục
+        print('Không tìm thấy phân loại');
+        return "Không tìm thấy phân loại";
+      } else if (response.statusCode == 500) {
+        // Xử lý các mã lỗi khác nếu cần
+        print('Phân loại đang được sử dụng');
+        return "Phân loại đang được sử dụng. Không thể xóa";
+      }
+    } catch (e) {
+      // Xử lý lỗi kết nối hoặc lỗi khác
+      print('Lỗi: $e');
+      throw 'Lỗi: $e';
+    }
+    return 'error';
+  }
+
 
 }

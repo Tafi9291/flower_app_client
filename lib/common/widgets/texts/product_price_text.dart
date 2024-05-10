@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-
-class TProductPriceText extends StatelessWidget {
+class TProductPriceText extends StatefulWidget {
   const TProductPriceText({
     super.key, 
-    this.currentSign ='đ ', 
+    this.currentSign =' đ', 
     required this.price, 
     this.isLarge = false, 
     this.maxLines = 1, 
@@ -17,14 +16,19 @@ class TProductPriceText extends StatelessWidget {
   final bool lineThrough;
 
   @override
+  State<TProductPriceText> createState() => _TProductPriceTextState();
+}
+
+class _TProductPriceTextState extends State<TProductPriceText> {
+  @override
   Widget build(BuildContext context) {
     return Text(
-      currentSign + price,
-      maxLines: maxLines,
+      widget.price + widget.currentSign,
+      maxLines: widget.maxLines,
       overflow: TextOverflow.ellipsis,
-      style: isLarge
-          ? Theme.of(context). textTheme.headlineMedium!.apply(decoration: lineThrough ? TextDecoration.lineThrough : null)
-          : Theme.of(context) . textTheme.titleLarge!.apply(decoration: lineThrough ? TextDecoration.lineThrough : null),
+      style: widget.isLarge
+          ? Theme.of(context). textTheme.headlineMedium!.apply(decoration: widget.lineThrough ? TextDecoration.lineThrough : null)
+          : Theme.of(context) . textTheme.titleLarge!.apply(decoration: widget.lineThrough ? TextDecoration.lineThrough : null),
     );
   }
 }

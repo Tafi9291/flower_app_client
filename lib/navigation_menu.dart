@@ -28,8 +28,8 @@ class NavigationMenu extends StatelessWidget {
           indicatorColor: darkMode ? TColors.white.withOpacity(0.1) : TColors.primary.withOpacity(0.4),
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Trang chủ',),
-            NavigationDestination(icon: Icon(Iconsax.notification), label: 'Thông báo',),
             NavigationDestination(icon: Icon(Iconsax.heart), label: 'Yêu thích',),
+            NavigationDestination(icon: Icon(Iconsax.notification), label: 'Thông báo',),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Tài khoản',),
           ],
         ),
@@ -42,6 +42,6 @@ class NavigationMenu extends StatelessWidget {
 
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
-  final screens = [const HomeScreen(), const NotificationsSrceen(), const FavouriteScreen(), const SettingScreen(),];
+  final screens = [const HomeScreen(), const FavouriteScreen(), const NotificationsSrceen(), const SettingScreen(),];
   // final screens = [const HomeScreen(), const FavouriteScreen(), const SettingScreen(),];
 }

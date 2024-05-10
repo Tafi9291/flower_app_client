@@ -37,7 +37,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         data = response;
       });
     } catch (e) {
-      print('Failed to load admin detail: $e');
+      print('Failed to load data: $e');
     }
   }
 

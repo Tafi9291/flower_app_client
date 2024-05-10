@@ -17,11 +17,11 @@ class Product {
   DateTime? createAt;
   DateTime? updateAt;
   int? categoryId;
-  List<Cart> carts;
+  List<Cart>? carts;
   Category? category;
-  List<Notification> notifications;
-  List<OrderDetail> orderDetails;
-  List<Users> users;
+  List<Notification>? notifications;
+  List<OrderDetail>? orderDetails;
+  List<Users>? users;
 
   Product({
     required this.productId,
@@ -45,43 +45,43 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      productId: json['ProductId'],
-      productName: json['ProductName'],
-      price: json['Price'],
-      percentDis: json['PercentDis'],
-      salePrice: json['SalePrice'],
-      stockQl: json['StockQl'],
-      imageUrl: json['ImageUrl'],
-      description: json['Description'],
-      quantitySold: json['QuantitySold'],
-      createAt: json['CreateAt'] != null ? DateTime.parse(json['CreateAt']) : null,
-      updateAt: json['UpdateAt'] != null ? DateTime.parse(json['UpdateAt']) : null,
-      categoryId: json['CategoryId'],
-      carts: json['Carts'] != null ? List<Cart>.from(json['Carts'].map((x) => Cart.fromJson(x))) : [],
-      category: json['Category'] != null ? Category.fromJson(json['Category']) : null,
-      notifications: json['Notifications'] != null ? List<Notification>.from(json['Notifications'].map((x) => Notification.fromJson(x))) : [],
-      orderDetails: json['OrderDetails'] != null ? List<OrderDetail>.from(json['OrderDetails'].map((x) => OrderDetail.fromJson(x))) : [],
-      users: json['Users'] != null ? List<Users>.from(json['Users'].map((x) => Users.fromJson(x))) : [],
+      productId: json['productId'] as int,
+      productName: json['productName'] as String,
+      price: json['price'] != null ? json['price'] as int : null,
+      percentDis: json['percentDis'] != null ? json['percentDis'] as int : null,
+      salePrice: json['salePrice'] != null ? json['salePrice'] as int : null,
+      stockQl: json['stockQl'] != null ? json['stockQl'] as int : null,
+      imageUrl: json['imageUrl'] as String?,
+      description: json['description'] as String?,
+      quantitySold: json['quantitySold'] != null ? json['quantitySold'] as int : null,
+      createAt: json['createAt'] != null ? DateTime.parse(json['createAt']) : null,
+      updateAt: json['updateAt'] != null ? DateTime.parse(json['updateAt']) : null,
+      categoryId: json['categoryId'] != null ? json['categoryId'] as int : null,
+      carts: json['carts'] != null ? List<Cart>.from(json['carts'].map((x) => Cart.fromJson(x))) : [],
+      category: json['category'] != null ? Category.fromJson(json['category']) : null,
+      notifications: json['notifications'] != null ? List<Notification>.from(json['notifications'].map((x) => Notification.fromJson(x))) : [],
+      orderDetails: json['orderDetails'] != null ? List<OrderDetail>.from(json['orderDetails'].map((x) => OrderDetail.fromJson(x))) : [],
+      users: json['users'] != null ? List<Users>.from(json['users'].map((x) => Users.fromJson(x))) : [],
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'ProductId': productId,
-    'ProductName': productName,
-    'Price': price,
-    'PercentDis': percentDis,
-    'SalePrice': salePrice,
-    'StockQl': stockQl,
-    'ImageUrl': imageUrl,
-    'Description': description,
-    'QuantitySold': quantitySold,
-    'CreateAt': createAt?.toIso8601String(),
-    'UpdateAt': updateAt?.toIso8601String(),
-    'CategoryId': categoryId,
-    'Carts': carts.map((cart) => cart.toJson()).toList(),
-    'Category': category?.toJson(),
-    'Notifications': notifications.map((notification) => notification.toJson()).toList(),
-    'OrderDetails': orderDetails.map((orderDetail) => orderDetail.toJson()).toList(),
-    'Users': users.map((user) => user.toJson()).toList(),
+    'productId': productId,
+    'productName': productName,
+    'price': price,
+    'percentDis': percentDis,
+    'salePrice': salePrice,
+    'stockQl': stockQl,
+    'imageUrl': imageUrl,
+    'description': description,
+    'quantitySold': quantitySold,
+    'createAt': createAt?.toIso8601String(),
+    'updateAt': updateAt?.toIso8601String(),
+    'categoryId': categoryId,
+    'carts': carts?.map((cart) => cart.toJson()).toList(),
+    'category': category?.toJson(),
+    'notifications': notifications?.map((notification) => notification.toJson()).toList(),
+    'orderDetails': orderDetails?.map((orderDetail) => orderDetail.toJson()).toList(),
+    'users': users?.map((user) => user.toJson()).toList(),
   };
 }

@@ -10,8 +10,13 @@ import 'package:t_store/utils/helpers/helper_functions.dart';
 
 class TProductImageSlider extends StatelessWidget {
   const TProductImageSlider({
-    super.key,
+    super.key, 
+    this.isNetworkImage = false, 
+    required this.imageUrl,
   });
+
+  final bool isNetworkImage;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +24,14 @@ class TProductImageSlider extends StatelessWidget {
     return TCurvedEdgesWidget(
       child: Container(
         color: dark ? TColors.darkGrey : TColors.light,
-        child: const Stack(
+        child: Stack(
           children: [
             /// Main Large Image
             SizedBox(
               height: 400,
               child: Padding(
-                padding: EdgeInsets.all(TSizes.productImageRadius * 3),
-                child: Center(child: Image(image: AssetImage(TImages.hoa1))),
+                padding: const EdgeInsets.all(TSizes.productImageRadius * 3),
+                child: Center(child: Image(image: isNetworkImage ? NetworkImage(imageUrl as String) : const AssetImage(TImages.hoa1) as ImageProvider)),
               ),
             ),
     

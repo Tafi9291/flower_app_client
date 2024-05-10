@@ -42,6 +42,11 @@ class AuthUserApiHandler {
     }
   }
 
+  static Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
   Future<String?> register(String firstName, String lastName, String nickName, String email, String phoneNumber, String password) async {
     try {
       final response = await http.post(
@@ -117,7 +122,7 @@ class AuthUserApiHandler {
       final Map<String, dynamic> responseData = json.decode(response.body);
       return responseData;
     } else {
-      throw Exception('Failed to load admin detail');
+      throw Exception('Failed to load user detail');
     }
   }
 

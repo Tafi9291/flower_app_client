@@ -8,11 +8,14 @@ class TCartCounterIcon extends StatelessWidget {
   const TCartCounterIcon({
     super.key, 
     this.iconColor = TColors.dark, 
-    required this.onPressed,
+    required this.onPressed, 
+    this.count = 0,
+    
   });
 
   final Color iconColor;
   final VoidCallback onPressed;
+  final int? count;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -28,7 +31,7 @@ class TCartCounterIcon extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
             ),
             child: Center(
-              child: Text('2', style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.white),),
+              child: Text(count.toString(), style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.white),),
             ),
           ),
         ),

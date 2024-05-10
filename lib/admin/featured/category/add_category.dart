@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:t_store/admin/featured/category/category.dart';
+import 'package:t_store/admin/navigation_menu.dart';
 import 'package:t_store/api/category_api_handler.dart';
 
 import 'package:t_store/common/widgets/appbar/appbar.dart';
@@ -51,6 +52,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
         // Category added successfully
         TLoaders.successSnackBar(title: 'Tạo phân loại mới', message: 'Tạo phân loại mới thành công'.tr);
         Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NavigationAdminMenu(), // Replace ProductScreen with your actual product screen
+          ),
+        );
       } else {
         // Handle case where category could not be added
         TLoaders.errorSnackBar(title: 'Tạo phân loại mới', message: 'Tạo phân loại mới thất bại'.tr);

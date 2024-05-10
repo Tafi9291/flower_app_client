@@ -4,7 +4,10 @@ import 'package:t_store/features/shop/screens/order/widgets/orders_list.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
 class TOrderTab extends StatefulWidget {
-  const TOrderTab({super.key});
+  const TOrderTab({super.key, required this.status, required this.statusId});
+
+  final String status;
+  final int statusId;
 
   @override
   State<TOrderTab> createState() => _TOrderTabState();
@@ -25,14 +28,14 @@ class _TOrderTabState extends State<TOrderTab> {
               const SizedBox(height: TSizes.spaceBtwItems,),
         
               /// Product
-              TSectionHeading(title: 'Đang xử lý', onPressed: (){}, showActionButton: false,),
+              TSectionHeading(title: widget.status, onPressed: (){}, showActionButton: false,),
               const SizedBox(height: TSizes.spaceBtwItems,),
         
               // TGridLayout(
               //   itemCount: 4,
               //   itemBuilder: (_, index) => const TOrderListItems(),
               // ),
-              const TOrderListItems(),
+              TOrderListItems(statusId: widget.statusId,),
             ],
           ),
         )

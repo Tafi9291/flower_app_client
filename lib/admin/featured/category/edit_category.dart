@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:t_store/admin/featured/category/category.dart';
+import 'package:t_store/admin/navigation_menu.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/data/models/Category.dart';
 import 'package:t_store/data/models/CategoryWithImageInput.dart';
@@ -87,6 +89,13 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
         message: 'Cập nhật phân loại thành công'.tr,
       );
       Navigator.pop(context);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NavigationAdminMenu(), // Replace ProductScreen with your actual product screen
+        ),
+      );
     } catch (e) {
       print('Error updating category: $e');
       TLoaders.errorSnackBar(

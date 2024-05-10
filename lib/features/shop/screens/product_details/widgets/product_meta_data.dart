@@ -11,48 +11,64 @@ import 'package:t_store/utils/constants/sizes.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
 
 class TProductMetaData extends StatelessWidget {
-  const TProductMetaData({super.key});
+  const TProductMetaData({super.key, 
+    required this.name, 
+    required this.category,
+    required this.percentDis, 
+    required this.price, 
+    required this.salePrice, 
+    
+  });
+
+  final String name, category;
+  final String percentDis, price, salePrice;
 
   @override
   Widget build(BuildContext context) {
     final darkMode = THelperFunctions.isDarkMode(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         /// Price and Sale price
         Row(
           children: [
             /// Sale Tag
-            TRoundedContainer(
-              radius: TSizes.sm,
-              backgroundColor: TColors.secondary.withOpacity(0.8),
-              padding: const  EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.xs),
-              child: Text('25%', style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.black)),
-            ),
-            const SizedBox(width: TSizes.spaceBtwItems),
+            if (percentDis != '0') ...{
+              TRoundedContainer(
+                radius: TSizes.sm,
+                backgroundColor: TColors.secondary.withOpacity(0.8),
+                padding: const EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.xs),
+                child: Text('$percentDis%', style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.black)),
+              ),
+              const SizedBox(width: TSizes.spaceBtwItems),
+            },
 
             /// Price
-            Text('đ 250.000',  style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough)),
-            const SizedBox(width: TSizes.spaceBtwItems),
-            const TProductPriceText(price: '200.000', isLarge: true),
+            if (price != salePrice) ...{
+              Text('$price đ', style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough)),
+              const SizedBox(width: TSizes.spaceBtwItems),
+            },
+            
+            TProductPriceText(price: salePrice.toString(), isLarge: true),
           ],
         ),
         const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
         /// Title
-        const TProductTitleText(title: 'Lovely',),
+        TProductTitleText(title: name,),
         const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
         /// Stock Status
         Row(
           children: [
-            TCircularImage(
-              image: TImages.shoeIcon,
-              width: 32,
-              height: 32,
-              overlayColor: darkMode ? TColors.white : TColors.black,
-            ),
-            const TBrandTitleWithVerifiedIcon(title: 'Hoa sinh nhật', brandTextSize: TextSizes.medium),
+            // TCircularImage(
+            //   image: TImages.shoeIcon,
+            //   width: 32,
+            //   height: 32,
+            //   overlayColor: darkMode ? TColors.white : TColors.black,
+            // ),
+            TBrandTitleWithVerifiedIcon(title: category, brandTextSize: TextSizes.large),
           ],
         ),
       ],

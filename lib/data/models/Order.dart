@@ -15,7 +15,7 @@ class Order {
   int? orderStatusId;
   int? paymentMethodId;
   List<Notification> notifications;
-  List<OrderDetail> orderDetails;
+  List<OrderDetail>? orderDetails;
   OrderStatus? orderStatus;
   PaymentMethod? paymentMethod;
   Users? users;
@@ -39,15 +39,15 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      orderId: json['OrderId'],
-      shipPrice: json['ShipPrice'],
-      finalPrice: json['FinalPrice'],
-      createAt: json['CreateAt'] != null ? DateTime.parse(json['CreateAt']) : null,
-      updateAt: json['UpdateAt'] != null ? DateTime.parse(json['UpdateAt']) : null,
-      address: json['Address'],
-      usersId: json['UsersId'],
-      orderStatusId: json['OrderStatusId'],
-      paymentMethodId: json['PaymentMethodId'],
+      orderId: json['orderId'],
+      shipPrice: json['shipPrice'],
+      finalPrice: json['finalPrice'],
+      createAt: json['createAt'] != null ? DateTime.parse(json['createAt']) : null,
+      updateAt: json['updateAt'] != null ? DateTime.parse(json['updateAt']) : null,
+      address: json['address'],
+      usersId: json['usersId'],
+      orderStatusId: json['orderStatusId'],
+      paymentMethodId: json['paymentMethodId'],
       notifications: json['Notifications'] != null ? List<Notification>.from(json['Notifications'].map((x) => Notification.fromJson(x))) : [],
       orderDetails: json['OrderDetails'] != null ? List<OrderDetail>.from(json['OrderDetails'].map((x) => OrderDetail.fromJson(x))) : [],
       orderStatus: json['OrderStatus'] != null ? OrderStatus.fromJson(json['OrderStatus']) : null,
@@ -58,18 +58,18 @@ class Order {
 
   Map<String, dynamic> toJson() => {
     'OrderId': orderId,
-      'ShipPrice': shipPrice,
-      'FinalPrice': finalPrice,
-      'CreateAt': createAt?.toIso8601String(),
-      'UpdateAt': updateAt?.toIso8601String(),
-      'Address': address,
-      'UsersId': usersId,
-      'OrderStatusId': orderStatusId,
-      'PaymentMethodId': paymentMethodId,
-      'Notifications': notifications.map((notification) => notification.toJson()).toList(),
-      'OrderDetails': orderDetails.map((orderDetail) => orderDetail.toJson()).toList(),
-      'OrderStatus': orderStatus?.toJson(),
-      'PaymentMethod': paymentMethod?.toJson(),
-      'Users': users?.toJson(),
+    'ShipPrice': shipPrice,
+    'FinalPrice': finalPrice,
+    'CreateAt': createAt?.toIso8601String(),
+    'UpdateAt': updateAt?.toIso8601String(),
+    'Address': address,
+    'UsersId': usersId,
+    'OrderStatusId': orderStatusId,
+    'PaymentMethodId': paymentMethodId,
+    'Notifications': notifications.map((notification) => notification.toJson()).toList(),
+    'OrderDetails': orderDetails?.map((orderDetail) => orderDetail.toJson()).toList(),
+    'OrderStatus': orderStatus?.toJson(),
+    'PaymentMethod': paymentMethod?.toJson(),
+    'Users': users?.toJson(),
   };
 }

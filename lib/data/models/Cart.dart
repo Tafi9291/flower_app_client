@@ -6,35 +6,37 @@ class Cart {
   int productId;
   int? quantity;
   int? subtotalPrice;
-  Product product;
-  Users users;
+  // List<Product>? products;
+  // Users? users;
 
   Cart({
     required this.usersId,
     required this.productId,
     this.quantity,
     this.subtotalPrice,
-    required this.product,
-    required this.users,
+    // this.products = const [],
+    // this.users,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
-      usersId: json['UsersId'],
-      productId: json['ProductId'],
-      quantity: json['Quantity'],
-      subtotalPrice: json['SubtotalPrice'],
-      product: Product.fromJson(json['Product']),
-      users: Users.fromJson(json['Users']),
+      usersId: json['usersId'] as int,
+      productId: json['productId'] as int,
+      quantity: json['quantity'] ?? 0,
+      subtotalPrice: json['subtotalPrice'] ?? 0,
+      // products: json['Products'] != null
+      //   ? List<Product>.from(json['Products'].map((x) => Product.fromJson(x)))
+      //   : [],
+      // users: json['users'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'UsersId': usersId,
-    'ProductId': productId,
-    'Quantity': quantity,
-    'SubtotalPrice': subtotalPrice,
-    'Product': product.toJson(),
-    'Users': users.toJson(),
+    'usersId': usersId,
+    'productId': productId,
+    'quantity': quantity,
+    'subtotalPrice': subtotalPrice,
+    // 'Products': products?.map((user) => user.toJson()).toList(),
+    // 'users': users?.toJson(),
   };
 }

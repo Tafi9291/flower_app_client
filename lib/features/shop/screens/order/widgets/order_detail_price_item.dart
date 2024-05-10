@@ -19,7 +19,7 @@ class TOrderDetailPriceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => const ProductDetailSrceen()),
+      // onTap: () => Get.to(() => const ProductDetailSrceen()),
       child: Column(
         children: [
           Row(
